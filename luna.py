@@ -109,7 +109,7 @@ async def main():
     print(
         """
 -----------------
-| Maki Started! |
+| luna Started! |
 -----------------
 """
     )
