@@ -30,7 +30,7 @@ async def lunaQuery(query: str, user_id: int):
         if LANGUAGE == "en"
         else (await arq.translate(query, "en")).result.translatedText
     )
-    resp = (await arq.luna(query, user_id)).result
+    resp = (await arq.Maki(query, user_id)).result
     return (
         resp
         if LANGUAGE == "en"
@@ -50,7 +50,7 @@ async def type_and_send(message):
     await message._client.send_chat_action(chat_id, "cancel")
 
 
-@luna.on_message(filters.command("repo") & ~filters.edited)
+@Maki.on_message(filters.command("repo") & ~filters.edited)
 async def repo(_, message):
     await message.reply_text(
         "[GitHub](https://github.com/thehamkercat/LunaChatBot)"
@@ -59,14 +59,14 @@ async def repo(_, message):
     )
 
 
-@luna.on_message(filters.command("help") & ~filters.edited)
+@Maki.on_message(filters.command("help") & ~filters.edited)
 async def start(_, message):
-    await luna.send_chat_action(message.chat.id, "typing")
+    await Maki.send_chat_action(message.chat.id, "typing")
     await sleep(2)
     await message.reply_text("/repo - Get Repo Link")
 
 
-@luna.on_message(
+@Maki.on_message(
     ~filters.private
     & filters.text
     & ~filters.command("help")
@@ -82,7 +82,7 @@ async def chat(_, message):
             return
     else:
         match = re.search(
-            "[.|\n]{0,}luna[.|\n]{0,}",
+            "[.|\n]{0,}Maki[.|\n]{0,}",
             message.text.strip(),
             flags=re.IGNORECASE,
         )
@@ -91,7 +91,7 @@ async def chat(_, message):
     await type_and_send(message)
 
 
-@luna.on_message(
+@Maki.on_message(
     filters.private & ~filters.command("help") & ~filters.edited
 )
 async def chatpm(_, message):
@@ -105,11 +105,11 @@ async def main():
     session = ClientSession()
     arq = ARQ(ARQ_API_BASE_URL, ARQ_API_KEY, session)
 
-    await luna.start()
+    await Maki.start()
     print(
         """
 -----------------
-| Luna Started! |
+| Maki Started! |
 -----------------
 """
     )
